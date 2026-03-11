@@ -1,17 +1,28 @@
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom"
+import { useEffect, useState } from "react";
+import { getDashboard } from "../api/auth";
 
-export const Dashboard=()=>{
+export const Dashboard = () => {
 
-    const navigate=useNavigate();
+  const [user, setUser] = useState(null);
 
-    useEffect=(()=>{
-        const token=localStorage.getItem("token")
-        if(!token){
-            navigate("/login")
-        }
-    },[navigate])
-    return(
-        <h1>Welcome</h1>
-    )
-}
+  useEffect(() => {
+    const fetchDashboard = async () => {
+      try {
+        const data = await getDashboard();
+        setUser(data.user);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchDashboard();
+  }, []);
+
+  if (!user) {
+    return <h1>Loading...</h1>;
+  }
+
+  return (
+    <h1>Welcome {user.email}</h1>
+  );
+};

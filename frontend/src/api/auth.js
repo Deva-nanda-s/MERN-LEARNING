@@ -16,7 +16,7 @@ export const getDashboard=async()=>{
   const token=localStorage.getItem("token")
   const response = await axios.get(`${API_URL}/dashboard`, { 
     headers:{
-      Authorization:"Bearer"+token
+      Authorization: "Bearer " + token
     }
       });
     return response.data;

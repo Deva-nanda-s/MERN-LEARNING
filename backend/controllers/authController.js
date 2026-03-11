@@ -42,12 +42,29 @@ exports.login = async (req, res) => {
     process.env.JWT_SECRET,
   {expiresIn:"1h"}    )
 
+
      res.json({
       message: "Login successful",
-      token
+      token,
+   
     });
 
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
+
+exports.getDashboard = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.userId).select("-password");
+
+    res.json({
+      message: "Dashboard data",
+      user
+    });
+
+  } catch (error) {
+    res.status(500).json({ message: "Server error" });
+  }
+};
+

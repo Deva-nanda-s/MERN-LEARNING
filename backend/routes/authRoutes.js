@@ -1,17 +1,12 @@
 const express = require("express");
 const router = express.Router();
 
-const { register, login } = require("../controllers/authController");
+const { register, login, getDashboard } = require("../controllers/authController");
 const authMiddleware=require("../middleware/authMiddleware");
 
 
 router.post("/register", register);
 router.post("/login",login);
-router.get("/dashboard",authMiddleware,(req,res)=>{
-  res.json({
-    message:"Dashboard data",
-    user:req.user
-  })
-})
+router.get("/dashboard", authMiddleware,getDashboard);
 
 module.exports = router;
